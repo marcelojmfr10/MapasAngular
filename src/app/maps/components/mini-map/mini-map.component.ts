@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, input, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  input,
+  viewChild,
+} from '@angular/core';
 
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import { environment } from '../../../../environments/environment';
@@ -14,12 +20,11 @@ mapboxgl.accessToken = environment.mapboxKey;
       width: 100%;
       height: 260px;
     }
-  `
+  `,
 })
 export class MiniMapComponent implements AfterViewInit {
-
   divElement = viewChild<ElementRef>('map');
-  lngLat = input.required<{ lng: number, lat: number }>();
+  lngLat = input.required<{ lng: number; lat: number }>();
   zoom = input<number>(14);
 
   async ngAfterViewInit() {
@@ -39,9 +44,5 @@ export class MiniMapComponent implements AfterViewInit {
     });
 
     new mapboxgl.Marker().setLngLat(this.lngLat()).addTo(map);
-
   }
-
-
-
 }

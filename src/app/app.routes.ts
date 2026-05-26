@@ -4,25 +4,23 @@ import { MarkersPageComponent } from './pages/markers-page/markers-page.componen
 import { HousesPageComponent } from './pages/houses-page/houses-page.component';
 
 export const routes: Routes = [
-
   {
     path: 'fullscreen',
     component: FullscreenMapPageComponent,
-    title: 'Pantalla completa'
+    title: 'Pantalla completa',
   },
   {
     path: 'markers',
     component: MarkersPageComponent,
-    title: 'Marcadores'
+    title: 'Marcadores',
   },
   {
     path: 'houses',
     component: HousesPageComponent,
-    title: 'Propiedades disponibles'
+    title: 'Propiedades disponibles',
   },
   {
     path: '**',
     redirectTo: 'fullscreen',
   },
-
 ];

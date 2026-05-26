@@ -1,16 +1,14 @@
+const { writeFileSync, mkdirSync } = require("fs");
 
+require("dotenv").config();
 
-const { writeFileSync, mkdirSync } = require('fs');
+const targetPath = "./src/environments/environment.ts";
+const targetPathDev = "./src/environments/environment.development.ts";
 
-require('dotenv').config();
+const mapboxKey = process.env["MAPBOX_KEY"];
 
-const targetPath = './src/environments/environment.ts'
-const targetPathDev = './src/environments/environment.development.ts'
-
-const mapboxKey = process.env['MAPBOX_KEY'];
-
-if(!mapboxKey) {
-  throw new Error('MAPBOX_KEY is not set');
+if (!mapboxKey) {
+  throw new Error("MAPBOX_KEY is not set");
 }
 
 const envFileContet = `
@@ -19,9 +17,7 @@ export const environment = {
 }
 `;
 
-mkdirSync(`./src/environments`, {recursive: true});
+mkdirSync(`./src/environments`, { recursive: true });
 
 writeFileSync(targetPath, envFileContet);
 writeFileSync(targetPathDev, envFileContet);
-
-

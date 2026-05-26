@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, signal, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  signal,
+  viewChild,
+} from '@angular/core';
 import mapboxgl, { LngLatLike } from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import { environment } from '../../../environments/environment';
 import { v4 as uuidV4 } from 'uuid';
@@ -17,7 +23,6 @@ interface Marker {
   templateUrl: './markers-page.component.html',
 })
 export class MarkersPageComponent implements AfterViewInit {
-
   divElement = viewChild<ElementRef>('map'); // referencia a este html, en vez de hacerlo por el document.querySelector
   map = signal<mapboxgl.Map | null>(null);
   markers = signal<Marker[]>([]);
@@ -32,7 +37,7 @@ export class MarkersPageComponent implements AfterViewInit {
     const map = new mapboxgl.Map({
       container: element, // container ID
       style: 'mapbox://styles/mapbox/streets-v12', // style URL
-      center: [-90.406433, 15.465400], // starting position [lng, lat]
+      center: [-90.406433, 15.4654], // starting position [lng, lat]
       zoom: 14, // starting zoom
     });
 
@@ -80,42 +85,42 @@ export class MarkersPageComponent implements AfterViewInit {
     const map = this.map()!;
 
     const color = '#xxxxxx'.replace(/x/g, (y) =>
-      ((Math.random() * 16) | 0).toString(16)
+      ((Math.random() * 16) | 0).toString(16),
     );
 
     const coords = event.lngLat;
 
     const marker = new mapboxgl.Marker({
       color: color,
-    }).setLngLat(coords).addTo(map);
+    })
+      .setLngLat(coords)
+      .addTo(map);
 
     const newMarker: Marker = {
       id: uuidV4(), //crypto.randomUUID()
-      mapboxMarker: marker
-    }
+      mapboxMarker: marker,
+    };
 
     // this.markers.set([newMarker, ...this.markers()]);
-    this.markers.update(markers => [newMarker, ...markers]);
+    this.markers.update((markers) => [newMarker, ...markers]);
 
     console.log(this.markers());
   }
 
   flyToMarker(lngLat: LngLatLike) {
-    if(!this.map()) return;
+    if (!this.map()) return;
 
     this.map()?.flyTo({
-      center: lngLat
+      center: lngLat,
     });
   }
 
   deleteMarker(marker: Marker) {
-    if(!this.map()) return;
+    if (!this.map()) return;
 
     const map = this.map()!;
     marker.mapboxMarker.remove();
 
-    this.markers.set(this.markers().filter(m => m.id !== marker.id));
+    this.markers.set(this.markers().filter((m) => m.id !== marker.id));
   }
-
-
 }

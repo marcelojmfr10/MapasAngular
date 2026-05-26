@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, effect, ElementRef, signal, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  effect,
+  ElementRef,
+  signal,
+  viewChild,
+} from '@angular/core';
 
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import { environment } from '../../../environments/environment';
@@ -17,22 +24,22 @@ mapboxgl.accessToken = environment.mapboxKey;
     }
 
     #controls {
-      background-color:white;
+      background-color: white;
       padding: 10px;
-      border-radius:5px;
+      border-radius: 5px;
       position: fixed;
       bottom: 25px;
       right: 20px;
       z-index: 9999;
-      box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
       border: 1px solid #e2e8f0;
       width: 250px;
     }
-  `
+  `,
 })
 export class FullscreenMapPageComponent implements AfterViewInit {
   divElement = viewChild<ElementRef>('map'); // referencia a este html, en vez de hacerlo por el document.querySelector
-  map = signal<mapboxgl.Map|null>(null);
+  map = signal<mapboxgl.Map | null>(null);
 
   zoom = signal(14);
   coordinates = signal({
@@ -41,20 +48,19 @@ export class FullscreenMapPageComponent implements AfterViewInit {
   });
 
   zoomEffect = effect(() => {
-    if(!this.map()) return;
+    if (!this.map()) return;
 
     this.map()?.setZoom(this.zoom());
     // this.map()?.zoomTo(this.zoom());
   });
 
   async ngAfterViewInit() {
-
     if (!this.divElement()?.nativeElement) return;
 
     await new Promise((resolve) => setTimeout(resolve, 80));
 
     const element = this.divElement()!.nativeElement;
-    const {lat, lng} = this.coordinates();
+    const { lat, lng } = this.coordinates();
 
     const map = new mapboxgl.Map({
       container: element, // container ID
@@ -87,7 +93,4 @@ export class FullscreenMapPageComponent implements AfterViewInit {
 
     this.map.set(map);
   }
-
-
-
 }
